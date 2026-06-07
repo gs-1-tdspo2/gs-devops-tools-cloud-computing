@@ -1,0 +1,44 @@
+server:
+  port: ${PORT:${SERVER_PORT:8080}}
+
+spring:
+  application:
+    name: amanaje-api
+  datasource:
+    url: ${DB_URL:jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL}
+    username: ${DB_USERNAME:RM561996}
+    password: ${DB_PASSWORD:230602}
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      connection-timeout: ${DB_CONNECTION_TIMEOUT_MS:10000}
+      validation-timeout: ${DB_VALIDATION_TIMEOUT_MS:5000}
+      data-source-properties:
+        oracle.net.CONNECT_TIMEOUT: ${DB_ORACLE_CONNECT_TIMEOUT_MS:10000}
+        oracle.jdbc.ReadTimeout: ${DB_ORACLE_READ_TIMEOUT_MS:30000}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+amanaje:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:8082,http://127.0.0.1:8082,https://amanaje.vercel.app}
+  leituras:
+    http:
+      evaluate-risk: ${HTTP_EVALUATE_RISK:true}
+  mqtt:
+    enabled: ${MQTT_ENABLED:true}
+    broker-url: ${MQTT_BROKER_URL:tcp://mqtt-dashboard.com:1883}
+    client-id: ${MQTT_CLIENT_ID:amanaje-java-api}
+    username: ${MQTT_USERNAME:}
+    password: ${MQTT_PASSWORD:}
+    telemetry-topic: ${MQTT_TELEMETRY_TOPIC:app/estacoes/+/telemetria}
+    status-topic: ${MQTT_STATUS_TOPIC:app/estacoes/+/status}
+    command-topic-pattern: ${MQTT_COMMAND_TOPIC_PATTERN:app/estacoes/%s/alertas}
+    evaluate-risk-on-message: ${MQTT_EVALUATE_RISK:true}
+    connection-timeout-seconds: ${MQTT_CONNECTION_TIMEOUT_SECONDS:5}
+    keep-alive-interval-seconds: ${MQTT_KEEP_ALIVE_INTERVAL_SECONDS:30}
