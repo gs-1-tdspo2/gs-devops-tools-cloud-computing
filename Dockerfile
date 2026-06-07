@@ -8,11 +8,21 @@ COPY src/ src/
 
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
+
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-COPY --from=build /app/target/amanaje-api-0.0.1-SNAPSHOT.jar app.jar
+RUN groupadd --system amanaje \
+    && useradd --system \
+        --gid amanaje \
+        --home-dir /app \
+        --shell /usr/sbin/nologin \
+        amanaje
+
+COPY --from=build --chown=amanaje:amanaje /app/target/amanaje-api-0.0.1-SNAPSHOT.jar app.jar
+
+USER amanaje
 
 EXPOSE 8080
 
