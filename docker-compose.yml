@@ -1,0 +1,53 @@
+name: amanaje-devops
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: ${REPRESENTANTE_RM}-amanaje-oracle-db
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_SYS_PASSWORD}
+      APP_USER: ${AMANAJE_DB_USER}
+      APP_USER_PASSWORD: ${AMANAJE_DB_PASSWORD}
+    ports:
+      - "1521:1521"
+    volumes:
+      - amanaje-oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    networks:
+      - amanaje-net
+    restart: unless-stopped
+
+  amanaje-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${REPRESENTANTE_RM}-amanaje-api
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: oracle
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: ${AMANAJE_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${AMANAJE_DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - amanaje-net
+    restart: unless-stopped
+
+volumes:
+  amanaje-oracle-data:
+    name: ${REPRESENTANTE_RM}-amanaje-oracle-data
+
+networks:
+  amanaje-net:
+    name: ${REPRESENTANTE_RM}-amanaje-net
+    driver: bridge
