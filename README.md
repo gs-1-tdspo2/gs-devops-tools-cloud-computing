@@ -47,7 +47,7 @@ Principais benefícios:
 
 ## Arquitetura
 
-![Arquitetura Macro da solução Amanajé em Azure, Docker Compose, API Java e Oracle XE](images/devops-fluxograma.png)
+![Arquitetura Macro da solução Amanajé em Azure, Docker Compose, API Java e Oracle XE](docs/images/devops-fluxograma.png)
 
 A arquitetura utiliza uma VM Linux na Azure executando Docker Compose. A API Java Spring Boot é exposta pela porta `8080` através do IP público da VM. O banco Oracle XE roda em um container separado, na mesma rede Docker da aplicação, com persistência em volume nomeado.
 
@@ -96,7 +96,7 @@ Os principais arquivos da entrega DevOps estão disponíveis no repositório:
 * [Docker Compose YAML](docker-compose.yml)
 * [Dockerfile](Dockerfile)
 * [Arquivo de variáveis de ambiente de exemplo](.env.example)
-* [Imagem da Arquitetura](images/devops-fluxograma.png)
+* [Imagem da Arquitetura](docs/images/devops-fluxograma.png)
 
 O script Azure CLI cria a infraestrutura em nuvem, abre as portas necessárias e instala Docker, Docker Compose, Git e nano na VM.
 
