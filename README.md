@@ -639,10 +639,10 @@ az group delete --name rg-amanaje-devops --yes
 
 Repositório GitHub:
 
-[Amanajé API — DevOps Tools & Cloud Computing](https://github.com/gs-1-tdspo2/gs-devops-tools-cloud-computing)
+https://github.com/gs-1-tdspo2/gs-devops-tools-cloud-computing
 
 Vídeo no YouTube:
 
-[Adicionar link do vídeo demonstrativo]
+https://youtu.be/T-irgp0n7WY
 
 ---
